@@ -5,7 +5,8 @@ the command copies [latex.gitignore](latex.gitignore) into the clone as `.gitign
 
 ## Install
 
-From this repository, run the following in a POSIX shell such as Git Bash on Windows.
+On macOS or Linux, open a terminal in this repository and run the commands below.
+On Windows, run the same commands in Git Bash.
 
 ```sh
 mkdir -p "$HOME/.local/bin"
