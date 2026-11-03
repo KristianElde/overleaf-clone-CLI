@@ -1,0 +1,27 @@
+#!/bin/sh
+set -e
+
+usage() {
+    echo 'Usage: overleaf clone <project-id> [-n <folder> | --name <folder>]' >&2
+    exit 2
+}
+
+[ "$1" = clone ] || usage
+case "$#" in
+    2) folder=$2 ;;
+    4) case "$3" in -n|--name) ;; *) usage ;; esac
+       [ -n "$4" ] || usage
+       folder=$4 ;;
+    *) usage ;;
+esac
+
+case "$2" in
+    ''|*[!0-9a-fA-F]*) echo 'Expected the project ID from the Overleaf project URL.' >&2; exit 2 ;;
+esac
+
+git clone -- "https://git.overleaf.com/$2" "$folder"
+
+ignore="$folder/.gitignore"
+if [ ! -e "$ignore" ] && [ ! -L "$ignore" ]; then
+    cp -- "$(dirname -- "$0")/latex.gitignore" "$ignore"
+fi
